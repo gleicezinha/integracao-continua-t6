@@ -3,5 +3,6 @@
         "MD033": {
             "allowed_elements": ["details", "summary", "h2", "h3"]
         }
-    }
+    },
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
