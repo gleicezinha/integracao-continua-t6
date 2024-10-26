@@ -19,7 +19,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
             - name: Merge Branch
-              uses: devsmasx/merge-branch@1.4.0
+              uses: devmasx/merge-branch@1.4.0
               with:
                 type: now
                 target_branch: main
