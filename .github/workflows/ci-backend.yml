@@ -1,31 +1,49 @@
-name: CI Back-end (main)
+name: CI Back-end (Main)
 
 on:
-    push: 
-      branches:
-        - 'main'
-      paths:
-        - 'sgcmapi/**'
-    workflow_dispatch:    
-    workflow_call:
-    pull_request:
-      paths:
-        - 'sgcmapi/**'  
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'sgcmapi/**'
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+    paths:
+      - 'sgcmapi/**'
 
 jobs:
-  buid:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: set up JDK 17
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
       - name: Maven Compile/Test
         working-directory: sgcmapi/
-        run: mvn compile test      
-
-
-          
+        run: mvn compile test
+  merge:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Filtro de arquivos
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            java:
+              - '**/*.java'
+      - name: Merge branch
+        if: steps.filter.outputs.java == 'false'
+        uses: devmasx/merge-branch@1.4.0
+        with:
+          type: now
+          target_branch: main
+          github_token: ${{ github.token }}''
