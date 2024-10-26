@@ -49,7 +49,7 @@ public class AtendimentoController implements ICrudController<Atendimento> {
     @PostMapping("/inserir")
     public ResponseEntity<Atendimento> insert(@RequestBody Atendimento objeto) {
         Atendimento registro = servico.save(objeto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registro);
+        return ResponseEntity.status(HttpStatus.OK).body(registro);
     }
 
     @Override
